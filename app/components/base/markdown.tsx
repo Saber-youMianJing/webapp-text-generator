@@ -1,3 +1,4 @@
+/* eslint-disable */
 import ReactMarkdown from 'react-markdown'
 import 'katex/dist/katex.min.css'
 import RemarkMath from 'remark-math'
@@ -7,9 +8,18 @@ import RemarkGfm from 'remark-gfm'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { atelierHeathLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
-export function Markdown(props: { content: string }) {
+export function Markdown(props: { content: string, onLinkClick: (href: string) => void }) {
+  const handleLinkClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target instanceof HTMLAnchorElement) {
+      e.preventDefault();
+      const href = e.target.getAttribute('href');
+      if (href) {
+        props.onLinkClick(href);
+      }
+    }
+  };
   return (
-    <div className="markdown-body">
+    <div className="markdown-body" onClick={handleLinkClick}>
       <ReactMarkdown
         remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
         rehypePlugins={[
@@ -40,6 +50,7 @@ export function Markdown(props: { content: string }) {
       >
         {props.content}
       </ReactMarkdown>
+      <a href='https://brand.boehringer-ingelheim.com/document/46#/brand-elements/color/primary-colors'>boehringer-ingelheim</a>
     </div>
   )
 }

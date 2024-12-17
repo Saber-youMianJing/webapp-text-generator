@@ -16,7 +16,6 @@ export type IconBaseProps = {
 
 const IconBase = forwardRef<React.MutableRefObject<HTMLOrSVGElement>, IconBaseProps>((props, ref) => {
   const { data, className, onClick, style, ...restProps } = props
-
   return generate(data.icon, `svg-${data.name}`, {
     className,
     onClick,

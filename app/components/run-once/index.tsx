@@ -107,7 +107,7 @@ const RunOnce: FC<IRunOnceProps> = ({
             <div className='mt-4 h-[1px] bg-gray-100'></div>
           )}
           <div className='w-full mt-4'>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between ">
               <Button
                 className='!h-8 !p-3'
                 onClick={onClear}
@@ -121,8 +121,8 @@ const RunOnce: FC<IRunOnceProps> = ({
                 onClick={onSend}
                 disabled={false}
               >
-                <PlayIcon className="shrink-0 w-4 h-4 mr-1" aria-hidden="true" />
-                <span className='text-[13px]'>{t('app.generation.run')}</span>
+                <PlayIcon className="shrink-0 w-4 h-4 mr-1 text-biGreen" aria-hidden="true" />
+                <span className='text-[13px] text-biGreen'>{t('app.generation.run')}</span>
               </Button>
             </div>
           </div>

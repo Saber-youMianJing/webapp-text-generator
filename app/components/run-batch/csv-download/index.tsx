@@ -58,7 +58,7 @@ const CSVDownload: FC<ICSVDownloadProps> = ({
           template,
         ]}
       >
-        <div className='flex items-center h-[18px] space-x-1 text-[#155EEF] text-xs font-medium'>
+        <div className='flex items-center h-[18px] space-x-1 text-[#00e47c] text-xs font-medium'>
           <Download02 className='w-3 h-3' />
           <span>{t('app.generation.downloadTemplate')}</span>
         </div>

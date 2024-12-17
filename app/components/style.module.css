@@ -11,3 +11,14 @@
   background: url(./icons/star.svg) center center no-repeat;
   background-size: contain;
 }
+
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  /* 或者你想要的手柄宽度 */
+  cursor: col-resize;
+  /* 改变鼠标光标以指示可拖动 */
+}

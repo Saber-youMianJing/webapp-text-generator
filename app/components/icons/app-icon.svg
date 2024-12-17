@@ -1,6 +1,6 @@
 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g filter="url(#filter0_d_3468_34550)">
-<rect x="2" y="1" width="32" height="32" rx="8" fill="#FFE4E8"/>
+<rect x="2" y="1" width="32" height="32" rx="8" fill="#00e47c"/>
 <path d="M9 26.26H27V8.26H9V26.26Z" fill="url(#pattern0)"/>
 <rect x="2.25" y="1.25" width="31.5" height="31.5" rx="7.75" stroke="black" stroke-opacity="0.05" stroke-width="0.5"/>
 </g>

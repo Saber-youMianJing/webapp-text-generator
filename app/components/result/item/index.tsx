@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client'
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
@@ -17,6 +18,8 @@ import RefreshCcw01 from '@/app/components/base/icons/line/refresh-ccw-01'
 import CodeEditor from '@/app/components/result/workflow/code-editor'
 import WorkflowProcessItem from '@/app/components/result/workflow/workflow-process'
 import { CodeLanguage } from '@/types/app'
+import SidePanel from './SidePanel'
+
 
 export type IGenerationItemProps = {
   isWorkflow?: boolean
@@ -120,6 +123,21 @@ const GenerationItem: FC<IGenerationItemProps> = ({
       setChildMessageId(null)
   }, [isLoading])
 
+  //popup 
+
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  const openSidePanel = (url: any) => {
+    setPreviewUrl(url);
+    setIsSidePanelOpen(true);
+  };
+
+  const closeSidePanel = () => {
+    setIsSidePanelOpen(false);
+  };
+
+
   return (
     <div className={cn(className, isTop ? `rounded-xl border ${!isError ? 'border-gray-200 bg-white' : 'border-[#FECDCA] bg-[#FEF3F2]'} ` : 'rounded-br-xl !mt-0')}
       style={isTop
@@ -152,7 +170,7 @@ const GenerationItem: FC<IGenerationItemProps> = ({
                   <div className='text-gray-400 text-sm'>{t('app.generation.batchFailed.outputPlaceholder')}</div>
                 )}
                 {!isError && (typeof content === 'string') && (
-                  <Markdown content={content} />
+                  <Markdown content={content} onLinkClick={openSidePanel} />
                 )}
                 {!isError && (typeof content !== 'string') && (
                   <CodeEditor
@@ -251,6 +269,13 @@ const GenerationItem: FC<IGenerationItemProps> = ({
           <GenerationItem {...childProps as any} />
         </div>
       )}
+
+      <div className="content">
+        {/* ...其他内容... */}
+        {isSidePanelOpen && (
+          <SidePanel url={previewUrl} onClose={closeSidePanel} />
+        )}
+      </div>
 
     </div>
   )

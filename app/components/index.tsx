@@ -1,5 +1,7 @@
+/* eslint-disable */
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next'
 import cn from 'classnames'
 import { useBoolean, useClickAway } from 'ahooks'
@@ -22,6 +24,7 @@ import Loading from '@/app/components/base/loading'
 import AppUnavailable from '@/app/components/app-unavailable'
 import { API_KEY, APP_ID, APP_INFO, DEFAULT_VALUE_MAX_LEN, IS_WORKFLOW } from '@/config'
 import { userInputsFormToPromptVariables } from '@/utils/prompt'
+import bgImg from "@/assets/100pc.png";
 
 const GROUP_SIZE = 5 // to avoid RPM(Request per minute) limit. The group task finished then the next group.
 enum TaskStatus {
@@ -117,9 +120,9 @@ const TextGeneration = () => {
   const handleSend = async () => {
     setIsCallBatchAPI(false)
     setControlSend(Date.now())
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     setAllTaskList([]) // clear batch task running status
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     showResSidebar()
   }
 
@@ -295,7 +298,7 @@ const TextGeneration = () => {
     setControlSend(Date.now())
     // clear run once task status
     setControlStopResponding(Date.now())
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
     showResSidebar()
   }
 
@@ -419,6 +422,7 @@ const TextGeneration = () => {
         <div className='shrink-0 flex items-center justify-between'>
           <div className='flex items-center space-x-3'>
             <div className={s.starIcon}></div>
+            {/* <div className='text-lg text-gray-800 font-semibold'>{t('app.generation.title')}</div> */}
             <div className='text-lg text-gray-800 font-semibold'>{t('app.generation.title')}</div>
           </div>
           <div className='flex items-center space-x-2'>
@@ -463,6 +467,57 @@ const TextGeneration = () => {
     </div>
   )
 
+  const [isDragging, setIsDragging] = useState(false);
+  const [leftWidth, setLeftWidth] = useState(600); // 初始宽度
+  const [fontSize, setFontSize] = useState(48); // 初始宽度
+  const [initialX, setInitialX] = useState(0); // 鼠标按下时的X坐标
+  const [initialWidth, setInitialWidth] = useState(0); // 拖动开始时的宽度
+
+  useEffect(() => {
+    // 监听窗口大小变化以更新初始宽度
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [leftWidth]);
+
+  // useEffect(() => {
+  //   console.log("isDragging", isDragging);
+  //   console.log("isDragging", leftWidth);
+  // }, [isDragging,leftWidth]); // 依赖数组中包含isDragging
+
+  const handleResize = () => {
+    setInitialWidth(leftWidth);
+  }
+
+  const startDragging = (e: any) => {
+    e.preventDefault()
+    // 记录初始X坐标和初始宽度
+    setInitialX(e.clientX);
+    setInitialWidth(leftWidth); // 获取当前宽度
+    setIsDragging(true);
+    // 添加事件监听器
+    document.addEventListener('mousemove', whileDragging);
+    document.addEventListener('mouseup', stopDragging);
+  };
+
+  const whileDragging = (e: any) => {
+    if (!isDragging) {
+      // 计算宽度变化
+      const widthChange = e.clientX - initialX;
+      // 更新宽度
+      const newWidth = Math.max(260, initialWidth + widthChange);
+      const fontSize = Math.max(260 / 15, (initialWidth + widthChange) / 15);
+      setFontSize(fontSize);
+      setLeftWidth(newWidth);
+
+    }
+  }
+
+  const stopDragging = () => {
+    setIsDragging(false)
+    document.removeEventListener('mousemove', whileDragging);
+    document.removeEventListener('mouseup', stopDragging);
+  }
+
   if (appUnavailable)
     return <AppUnavailable isUnknwonReason={isUnknwonReason} errMessage={!hasSetAppConfig ? 'Please set APP_ID and API_KEY in config/index.tsx' : ''} />
 
@@ -473,7 +528,7 @@ const TextGeneration = () => {
     <>
       <div className={cn(isPC && 'flex', 'h-screen bg-gray-50')}>
         {/* Left */}
-        <div className={cn(isPC ? 'w-[600px] max-w-[50%] p-8' : 'p-4', 'shrink-0 relative flex flex-col pb-10 h-full border-r border-gray-100 bg-white')}>
+        <div className={cn(isPC ? 'w-[600px] max-w-[50%] p-8' : 'p-4', 'shrink-0 relative flex flex-col pb-10 h-full border-r border-gray-100 bg-white')} style={{ width: `${leftWidth}px` }}>
           <div className='mb-6'>
             <div className='flex justify-between items-center'>
               <div className='flex items-center space-x-3'>
@@ -524,6 +579,12 @@ const TextGeneration = () => {
                 isAllFinished={allTaskRuned}
               />
             </div>
+            <div className='mt-5 relative flex items-center justify-center flex-col hover:opacity-100 logoFrame transition-all'>
+              <Image src={bgImg} alt="Background Image" className='m-8 w-7/12 rounded-3xl overflow-hidden shadow-2xl bgPic transition-all ' width={300} /> {/* 根据需要设置width和height */}
+              <div className='absolute font-bold text-green-300 flex items-center flex-col justify-center transition-all logoWord'> <span style={{ fontSize: fontSize * 1.5 + 'px' }}>100</span><span style={{ fontSize: fontSize / 1.3 + 'px' }}>People Challenge</span></div>
+              <div className='absolute p-12 text-center opacity-0 logoContent  transition-all' style={{ fontSize: fontSize / 2.5 + 'px' }}>"Unleash creativity at the 100 People Challenge with LLM, where global minds shape the future."</div>
+
+            </div>
           </div>
 
           {/* copyright */}
@@ -542,6 +603,7 @@ const TextGeneration = () => {
               </>
             )}
           </div>
+          <div className={s.resizeHandle} onMouseDown={startDragging}></div>
         </div>
 
         {/* Result */}
