@@ -25,6 +25,8 @@ import AppUnavailable from '@/app/components/app-unavailable'
 import { API_KEY, APP_ID, APP_INFO, DEFAULT_VALUE_MAX_LEN, IS_WORKFLOW } from '@/config'
 import { userInputsFormToPromptVariables } from '@/utils/prompt'
 import bgImg from "@/assets/100pc.png";
+import bgWord from "@/assets/100word.png";
+import change from "@/assets/change.png";
 
 const GROUP_SIZE = 5 // to avoid RPM(Request per minute) limit. The group task finished then the next group.
 enum TaskStatus {
@@ -518,6 +520,30 @@ const TextGeneration = () => {
     document.removeEventListener('mouseup', stopDragging);
   }
 
+  //logo
+
+  const [isHovering, setIsHovering] = useState(false);
+  let timerId: any = null;
+
+  const handleMouseEnter = () => {
+    // 清除之前的定时器
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    // 设置一个新的定时器
+    timerId = setTimeout(() => {
+      setIsHovering(true);
+    }, 2000);
+  };
+
+  const handleMouseLeave = () => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = null; // 重置 timerId
+    setIsHovering(false);
+  };
+
   if (appUnavailable)
     return <AppUnavailable isUnknwonReason={isUnknwonReason} errMessage={!hasSetAppConfig ? 'Please set APP_ID and API_KEY in config/index.tsx' : ''} />
 
@@ -526,7 +552,7 @@ const TextGeneration = () => {
 
   return (
     <>
-      <div className={cn(isPC && 'flex', 'h-screen bg-gray-50')}>
+      <div className={cn(isPC && 'flex', 'h-headContent bg-gray-50')}>
         {/* Left */}
         <div className={cn(isPC ? 'w-[600px] max-w-[50%] p-8' : 'p-4', 'shrink-0 relative flex flex-col pb-10 h-full border-r border-gray-100 bg-white')} style={{ width: `${leftWidth}px` }}>
           <div className='mb-6'>
@@ -579,9 +605,20 @@ const TextGeneration = () => {
                 isAllFinished={allTaskRuned}
               />
             </div>
-            <div className='mt-5 relative flex items-center justify-center flex-col hover:opacity-100 logoFrame transition-all'>
+            <div className='mt-9 relative flex items-center justify-center flex-col hover:opacity-100 logoFrame transition-all' onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>
               <Image src={bgImg} alt="Background Image" className='m-8 w-7/12 rounded-3xl overflow-hidden shadow-2xl bgPic transition-all ' width={300} /> {/* 根据需要设置width和height */}
-              <div className='absolute font-bold text-green-300 flex items-center flex-col justify-center transition-all logoWord'> <span style={{ fontSize: fontSize * 1.5 + 'px' }}>100</span><span style={{ fontSize: fontSize / 1.3 + 'px' }}>People Challenge</span></div>
+              <Image src={bgWord} alt="100pc Image" className={cn(
+                'absolute transition-all bgWord w-6/12',
+                isHovering ? 'opacity-100' : 'opacity-0',
+              )} width={300} />
+              <Image src={change} alt="change Image"
+                className={cn(
+                  'absolute transition-all change w-3/12',
+                  isHovering ? 'opacity0' : '',
+                )}
+                width={300} /> {/* 根据需要设置width和height */}
+              {/* <div className='absolute font-bold text-green-300 flex items-center flex-col justify-center transition-all logoWord'> <span style={{ fontSize: fontSize * 1.5 + 'px' }}>100</span><span style={{ fontSize: fontSize / 1.3 + 'px' }}>People Challenge</span></div> */}
               <div className='absolute p-12 text-center opacity-0 logoContent  transition-all' style={{ fontSize: fontSize / 2.5 + 'px' }}>"Unleash creativity at the 100 People Challenge with LLM, where global minds shape the future."</div>
 
             </div>
