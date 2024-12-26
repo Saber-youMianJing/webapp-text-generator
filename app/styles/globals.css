@@ -130,7 +130,7 @@ a {
 
 .logoFrame:hover .logoContent {
   opacity: 1;
-  transform: translateY(40px);
+  transform: translateY(60px);
 }
 
 .logoFrame:hover .bgPic {
@@ -155,7 +155,7 @@ a {
 }
 
 .logoContent {
-  bottom: -80px;
+  bottom: 10px;
 }
 
 .bgPic {
