@@ -26,6 +26,7 @@ import { API_KEY, APP_ID, APP_INFO, DEFAULT_VALUE_MAX_LEN, IS_WORKFLOW } from '@
 import { userInputsFormToPromptVariables } from '@/utils/prompt'
 import bgImg from "@/assets/100pc.png";
 import bgWord from "@/assets/100word.png";
+import shield from "@/assets/shield.png";
 import change from "@/assets/change.png";
 
 const GROUP_SIZE = 5 // to avoid RPM(Request per minute) limit. The group task finished then the next group.
@@ -607,21 +608,27 @@ const TextGeneration = () => {
               />
             </div>
             <div className="relative flex items-center justify-center flex-col w-full">
-              <div className='mt-9 w-10/12 relative flex items-center justify-center flex-col hover:opacity-100 logoFrame transition-all' onMouseEnter={handleMouseEnter}
+              <div className='mt-12 w-10/12 relative flex items-center justify-center flex-col hover:opacity-100 logoFrame transition-all' onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}>
                 <Image src={bgImg} alt="Background Image" className='m-8 w-7/12 rounded-3xl overflow-hidden shadow-2xl bgPic transition-all ' width={300} /> {/* 根据需要设置width和height */}
                 <Image src={bgWord} alt="100pc Image" className={cn(
                   'absolute transition-all bgWord w-6/12',
                   isHovering ? 'opacity-100' : 'opacity-0',
                 )} width={300} />
-                <Image src={change} alt="change Image"
+                <Image src={shield} alt="change Image"
+                  className={cn(
+                    'absolute transition-all shield',
+                    isHovering ? 'opacity0' : '',
+                  )}
+                  width={300} />
+                {/* <Image src={change} alt="change Image"
                   className={cn(
                     'absolute transition-all change w-3/12',
                     isHovering ? 'opacity0' : '',
                   )}
-                  width={300} /> {/* 根据需要设置width和height */}
+                  width={300} />  */}
                 {/* <div className='absolute font-bold text-green-300 flex items-center flex-col justify-center transition-all logoWord'> <span style={{ fontSize: fontSize * 1.5 + 'px' }}>100</span><span style={{ fontSize: fontSize / 1.3 + 'px' }}>People Challenge</span></div> */}
-                <div className='absolute text-center opacity-0 logoContent  transition-all' style={{ fontSize: fontSize / 2.5 + 'px' }}>"Unleash creativity at the 100 People Challenge with LLM, where global minds shape the future."</div>
+                {/* <div className='absolute text-center opacity-0 logoContent  transition-all' style={{ fontSize: fontSize / 2.5 + 'px' }}>"Unleash creativity at the 100 People Challenge with LLM, where global minds shape the future."</div> */}
               </div>
 
             </div>

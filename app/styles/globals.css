@@ -149,6 +149,13 @@ a {
   transform-origin: bottom;
 }
 
+.logoFrame:hover .shield {
+  transform: scale(2) rotate(-13deg);
+  bottom: 90%;
+  right: 50%;
+  /* transform-origin: bottom; */
+}
+
 .logoWord {
   line-height: 1.2;
   color: #00e47c;
@@ -166,7 +173,8 @@ a {
 .bgPic,
 .logoContent,
 .logoWord,
-.change {
+.change,
+.shield {
   transition: 1.5s;
 }
 
@@ -176,8 +184,15 @@ a {
   opacity: 1;
 }
 
+.shield {
+  right: 21%;
+  bottom: 11%;
+  opacity: 1;
+  width: 60%;
+}
+
 .bgWord {
-  top: -15%;
+  top: -17%;
   right: 10%;
   transform-origin: bottom;
   transition: 1.2s;
