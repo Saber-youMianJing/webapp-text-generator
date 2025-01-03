@@ -582,8 +582,8 @@ const TextGeneration = () => {
 
           <TabHeader
             items={[
-              { id: 'create', name: t('app.generation.tabs.create') },
-              { id: 'batch', name: t('app.generation.tabs.batch') },
+              { id: 'create', name: t('app.generation.tabs.PDF') },
+              // { id: 'batch', name: t('app.generation.tabs.batch') },
             ]}
             value={currTab}
             onChange={setCurrTab}

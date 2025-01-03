@@ -10,6 +10,7 @@ const translation = {
       create: 'Run Once',
       batch: 'Run Batch',
       saved: 'Saved',
+      PDF: 'Prohibited Drug Finder',
     },
     queryTitle: 'Query content',
     completionResult: 'Completion result',
